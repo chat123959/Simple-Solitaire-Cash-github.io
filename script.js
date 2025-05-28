@@ -294,3 +294,14 @@ style.textContent = `
 }
 `;
 document.head.appendChild(style);
+// Show a banner ad at the bottom
+showBannerAd('bottom');
+
+// Show an interstitial ad
+showInterstitialAd();
+
+// Show a rewarded ad
+showRewardedAd();
+
+// Show a native ad in a container
+showNativeAd('native-ad-container');
