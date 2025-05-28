@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Solitaire Gold</title>
+    <title>Solitaire Gold - Mobile Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -256,19 +256,31 @@
             opacity: 0.7;
         }
         
-        .ad-placeholder {
+        .ad-content {
             height: 50px;
             background: rgba(255, 215, 0, 0.1);
             border-radius: 6px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-size: 0.8rem;
-            color: rgba(255, 215, 0, 0.5);
+            color: rgba(255, 215, 0, 0.8);
         }
         
-        .ad-placeholder i {
-            margin-right: 8px;
+        .ad-content i {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        
+        .ad-action {
+            margin-top: 5px;
+            background: #ffd700;
+            color: #0a5c1f;
+            border-radius: 4px;
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            font-weight: bold;
         }
         
         .sound-control {
@@ -412,7 +424,7 @@
                 margin: 10px 0;
             }
             
-            .ad-placeholder {
+            .ad-content {
                 height: 40px;
                 font-size: 0.7rem;
             }
@@ -474,6 +486,16 @@
         </div>
         
         <div class="game-area">
+            <!-- AdMob Banner Ad Placeholder -->
+            <div class="ad-container">
+                <div class="ad-label">AdMob Banner Ad</div>
+                <div class="ad-content">
+                    <i class="fab fa-google"></i>
+                    <div>AdMob Banner Ad</div>
+                    <div class="ad-action">Earn Coins</div>
+                </div>
+            </div>
+            
             <div class="board" id="tableau">
                 <!-- Tableau piles will be generated here -->
             </div>
@@ -491,10 +513,13 @@
                 <!-- Foundation piles will be generated here -->
             </div>
             
+            <!-- Amazon Ad Placeholder -->
             <div class="ad-container">
-                <div class="ad-label">Sponsored Ad</div>
-                <div class="ad-placeholder">
-                    <i class="fab fa-amazon"></i> Amazon Console Ad
+                <div class="ad-label">Amazon Ad</div>
+                <div class="ad-content">
+                    <i class="fab fa-amazon"></i>
+                    <div>Amazon Ad</div>
+                    <div class="ad-action">Special Offer</div>
                 </div>
             </div>
             
@@ -502,10 +527,13 @@
                 <p>Drag cards to build stacks in descending order and alternating colors. Build foundation piles from Ace to King by suit.</p>
             </div>
             
+            <!-- Rewarded Ad Placeholder -->
             <div class="ad-container">
-                <div class="ad-label">AdMob Advertisement</div>
-                <div class="ad-placeholder">
-                    <i class="fab fa-google"></i> Admob Banner Ad
+                <div class="ad-label">Rewarded Video Ad</div>
+                <div class="ad-content">
+                    <i class="fas fa-video"></i>
+                    <div>Watch video to earn 100 coins</div>
+                    <div class="ad-action pulse">Watch Now</div>
                 </div>
             </div>
         </div>
@@ -1086,10 +1114,29 @@
                 dealCards();
             });
             
+            // Ad action handlers
+            document.querySelectorAll('.ad-action').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    // Simulate ad reward
+                    state.coins += 100;
+                    coinsEl.textContent = state.coins;
+                    
+                    // Visual feedback
+                    const originalText = btn.textContent;
+                    btn.textContent = "Coins Added!";
+                    btn.style.background = '#4CAF50';
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                        btn.style.background = '#ffd700';
+                    }, 2000);
+                });
+            });
+            
             // Initialize game
             dealCards();
         });
     </script>
-    <script src="ads.js"></script>
 </body>
 </html>
