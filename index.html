@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solitaire Gold: Win Virtual Coins</title>
+    <meta name="description" content="Play colorful solitaire and earn virtual coins in this exciting card game">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- AdMob SDK -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADMOB_ID" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>SOLITAIRE <span>GOLD</span></h1>
+            <div class="score-board">
+                <div class="coin-display">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" alt="coin">
+                    <span id="coins">100</span>
+                </div>
+                <div class="timer-display">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2088/2088617.png" alt="timer">
+                    <span id="time">00:00</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="game-board" id="gameBoard">
+            <!-- Cards will be generated here by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="hintBtn" class="hint-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/2491/2491916.png" alt="hint">
+                Hint (10 coins)
+            </button>
+            <button id="undoBtn" class="undo-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/709/709624.png" alt="undo">
+                Undo (5 coins)
+            </button>
+            <button id="newGameBtn" class="new-game-btn">
+                <img src="https://cdn-icons-png.flaticon.com/512/1026/1026511.png" alt="new game">
+                New Game
+            </button>
+        </div>
+        
+        <!-- Ad Container -->
+        <div class="ad-container">
+            <div class="ad-placeholder">Advertisement</div>
+        </div>
+    </div>
+
+    <script src="ads.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,244 @@
+:root {
+    --primary: #FFD700;
+    --secondary: #FF6B6B;
+    --dark: #2C3E50;
+    --light: #ECF0F1;
+    --success: #2ECC71;
+    --info: #3498DB;
+    --warning: #F39C12;
+    --danger: #E74C3C;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header {
+    text-align: center;
+    color: var(--light);
+    margin-bottom: 25px;
+}
+
+h1 {
+    color: var(--primary);
+    margin: 0;
+    font-size: 2.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+h1 span {
+    color: var(--secondary);
+}
+
+.score-board {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 15px;
+    font-size: 1.2em;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.coin-display, .timer-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.coin-display img, .timer-display img {
+    width: 24px;
+    height: 24px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.pile {
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.card {
+    width: 70px;
+    height: 100px;
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.8em;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.3s ease;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card.red {
+    color: var(--danger);
+}
+
+.card.black {
+    color: var(--dark);
+}
+
+.card.hidden {
+    background: linear-gradient(135deg, var(--info), #2980B9);
+    color: transparent;
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.card.hidden::after {
+    content: '♠';
+    position: absolute;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 2.5em;
+}
+
+.card.selected {
+    transform: translateY(-15px);
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.controls {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 25px;
+    gap: 15px;
+}
+
+button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    font-size: 1em;
+}
+
+button img {
+    width: 20px;
+    height: 20px;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hint-btn {
+    background-color: var(--info);
+    color: white;
+}
+
+.undo-btn {
+    background-color: var(--warning);
+    color: white;
+}
+
+.new-game-btn {
+    background-color: var(--success);
+    color: white;
+}
+
+.ad-container {
+    margin-top: 25px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.ad-placeholder {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--light);
+    border-radius: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .game-board {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .card {
+        width: 60px;
+        height: 90px;
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-board {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .card {
+        width: 50px;
+        height: 75px;
+        font-size: 1.2em;
+    }
+    
+    button {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+}
