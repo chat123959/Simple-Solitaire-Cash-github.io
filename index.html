@@ -3,55 +3,671 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solitaire Gold: Win Virtual Coins</title>
-    <meta name="description" content="Play colorful solitaire and earn virtual coins in this exciting card game">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- AdMob SDK -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-YOUR_ADMOB_ID" crossorigin="anonymous"></script>
+    <title>Solitaire Gold - Enhanced Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a5f23, #0d3b1e);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(0, 30, 15, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #0a5c1f, #1e7d34);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #ffd700;
+            position: relative;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            color: #ffd700;
+            font-size: 2.5rem;
+        }
+        
+        .logo h1 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        
+        .stat-box {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            background: linear-gradient(to bottom, #ffd700, #daa520);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: bold;
+            color: #0a5c1f;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        .game-area {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .board {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .pile {
+            background: rgba(30, 125, 52, 0.3);
+            border-radius: 10px;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+        }
+        
+        .card {
+            width: 80px;
+            height: 120px;
+            background: white;
+            border-radius: 8px;
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card.red {
+            color: #d40000;
+        }
+        
+        .card.black {
+            color: #222;
+        }
+        
+        .card .top {
+            align-self: flex-start;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .card .center {
+            align-self: center;
+            font-size: 1.8rem;
+        }
+        
+        .card .bottom {
+            align-self: flex-end;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transform: rotate(180deg);
+        }
+        
+        .card.back {
+            background: linear-gradient(135deg, #1a5f23, #0d3b1e);
+            color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .card.back:after {
+            content: "♠";
+            font-size: 2.5rem;
+            color: rgba(255, 215, 0, 0.7);
+        }
+        
+        .stock-waste {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .stock, .waste {
+            width: 120px;
+            height: 150px;
+            background: rgba(30, 125, 52, 0.3);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+        }
+        
+        .foundations {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .foundation {
+            width: 80px;
+            height: 120px;
+            background: rgba(30, 125, 52, 0.2);
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+        }
+        
+        .ad-container {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        .ad-label {
+            color: #ffd700;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+        
+        .ad-placeholder {
+            height: 60px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: rgba(255, 215, 0, 0.5);
+        }
+        
+        .ad-placeholder i {
+            margin-right: 10px;
+        }
+        
+        .mobile-controls {
+            display: none;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .mobile-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #ffd700, #daa520);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #0a5c1f;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sound-control {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #ffd700;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo i {
+                font-size: 1.8rem;
+            }
+            
+            .stats {
+                padding: 10px;
+            }
+            
+            .stat-value {
+                font-size: 1.4rem;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .game-area {
+                padding: 15px;
+            }
+            
+            .board {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            
+            .pile {
+                height: 130px;
+            }
+            
+            .card {
+                width: 60px;
+                height: 90px;
+            }
+            
+            .card .top, .card .bottom {
+                font-size: 0.9rem;
+            }
+            
+            .card .center {
+                font-size: 1.3rem;
+            }
+            
+            .stock, .waste {
+                width: 90px;
+                height: 120px;
+            }
+            
+            .foundations {
+                flex-wrap: wrap;
+            }
+            
+            .mobile-controls {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .board {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stat-value {
+                font-size: 1.2rem;
+            }
+            
+            .btn {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            
+            .pile {
+                height: 110px;
+            }
+            
+            .card {
+                width: 50px;
+                height: 75px;
+            }
+            
+            .card .top, .card .bottom {
+                font-size: 0.7rem;
+            }
+            
+            .card .center {
+                font-size: 1rem;
+            }
+            
+            .stock, .waste {
+                width: 70px;
+                height: 100px;
+            }
+            
+            .foundation {
+                width: 50px;
+                height: 75px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes dealCard {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .card-deal {
+            animation: dealCard 0.5s ease-out;
+        }
+        
+        /* Win message */
+        .win-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 30, 15, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .win-message.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .win-content {
+            text-align: center;
+            padding: 30px;
+            background: rgba(0, 50, 25, 0.9);
+            border-radius: 20px;
+            border: 3px solid #ffd700;
+            max-width: 90%;
+        }
+        
+        .win-content h2 {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .win-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .win-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .win-stat {
+            text-align: center;
+        }
+        
+        .win-stat-value {
+            font-size: 2rem;
+            color: #ffd700;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div class="game-container">
-        <header>
-            <h1>SOLITAIRE <span>GOLD</span></h1>
-            <div class="score-board">
-                <div class="coin-display">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3132/3132693.png" alt="coin">
-                    <span id="coins">100</span>
+    <div class="container">
+        <div class="sound-control">
+            <i class="fas fa-volume-up"></i>
+        </div>
+        
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <h1>SOLITAIRE GOLD</h1>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-value">250</div>
+                    <div class="stat-label">COINS</div>
                 </div>
-                <div class="timer-display">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2088/2088617.png" alt="timer">
-                    <span id="time">00:00</span>
+                <div class="stat-box">
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">MOVES</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3:45</div>
+                    <div class="stat-label">TIME</div>
                 </div>
             </div>
-        </header>
-        
-        <div class="game-board" id="gameBoard">
-            <!-- Cards will be generated here by JavaScript -->
+            
+            <div class="controls">
+                <button class="btn"><i class="fas fa-redo"></i> RESTART</button>
+                <button class="btn"><i class="fas fa-undo"></i> UNDO</button>
+                <button class="btn"><i class="fas fa-lightbulb"></i> HINT</button>
+            </div>
         </div>
         
-        <div class="controls">
-            <button id="hintBtn" class="hint-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/2491/2491916.png" alt="hint">
-                Hint (10 coins)
-            </button>
-            <button id="undoBtn" class="undo-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/709/709624.png" alt="undo">
-                Undo (5 coins)
-            </button>
-            <button id="newGameBtn" class="new-game-btn">
-                <img src="https://cdn-icons-png.flaticon.com/512/1026/1026511.png" alt="new game">
-                New Game
-            </button>
+        <div class="game-area">
+            <div class="board">
+                <div class="pile"></div>
+                <div class="pile"></div>
+                <div class="pile"></div>
+                <div class="pile"></div>
+                <div class="pile"></div>
+                <div class="pile"></div>
+                <div class="pile"></div>
+            </div>
+            
+            <div class="stock-waste">
+                <div class="stock">
+                    <div class="card back"></div>
+                </div>
+                <div class="waste">
+                    <div class="card red">
+                        <div class="top">7 ♥</div>
+                        <div class="center">♥</div>
+                        <div class="bottom">7 ♥</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="foundations">
+                <div class="foundation"></div>
+                <div class="foundation"></div>
+                <div class="foundation"></div>
+                <div class="foundation"></div>
+            </div>
+            
+            <div class="ad-container">
+                <div class="ad-label">Sponsored Ad</div>
+                <div class="ad-placeholder">
+                    <i class="fab fa-amazon"></i> Amazon Console Ad
+                </div>
+            </div>
+            
+            <div class="mobile-controls">
+                <div class="mobile-btn"><i class="fas fa-redo"></i></div>
+                <div class="mobile-btn"><i class="fas fa-undo"></i></div>
+                <div class="mobile-btn"><i class="fas fa-lightbulb"></i></div>
+            </div>
+            
+            <div class="ad-container">
+                <div class="ad-label">AdMob Advertisement</div>
+                <div class="ad-placeholder">
+                    <i class="fab fa-google"></i> Admob Banner Ad
+                </div>
+            </div>
         </div>
         
-        <!-- Ad Container -->
-        <div class="ad-container">
-            <div class="ad-placeholder">Advertisement</div>
+        <div class="win-message">
+            <div class="win-content">
+                <h2>VICTORY!</h2>
+                <p>Congratulations! You've completed Solitaire Gold!</p>
+                
+                <div class="win-stats">
+                    <div class="win-stat">
+                        <div class="stat-label">Time</div>
+                        <div class="win-stat-value">3:45</div>
+                    </div>
+                    <div class="win-stat">
+                        <div class="stat-label">Moves</div>
+                        <div class="win-stat-value">15</div>
+                    </div>
+                    <div class="win-stat">
+                        <div class="stat-label">Score</div>
+                        <div class="win-stat-value">850</div>
+                    </div>
+                </div>
+                
+                <button class="btn" style="padding: 15px 40px; font-size: 1.2rem;">
+                    <i class="fas fa-trophy"></i> COLLECT 250 COINS
+                </button>
+            </div>
         </div>
     </div>
-
-    <script src="ads.js"></script>
-    <script src="script.js"></script>
+    
+    <audio id="cardFlipSound" src="https://www.soundjay.com/misc/sounds/card-flip-1.mp3"></audio>
+    <audio id="cardPlaceSound" src="https://www.soundjay.com/misc/sounds/card-place-1.mp3"></audio>
+    <audio id="winSound" src="https://www.soundjay.com/misc/sounds/win-sound.mp3"></audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sound elements
+            const cardFlipSound = document.getElementById('cardFlipSound');
+            const cardPlaceSound = document.getElementById('cardPlaceSound');
+            const winSound = document.getElementById('winSound');
+            const soundControl = document.querySelector('.sound-control');
+            
+            // Toggle sound
+            let soundEnabled = true;
+            soundControl.addEventListener('click', function() {
+                soundEnabled = !soundEnabled;
+                soundControl.innerHTML = soundEnabled ? '<i class="fas fa-volume-up"></i>' : '<i class="fas fa-volume-mute"></i>';
+            });
+            
+            // Play sound function
+            function playSound(sound) {
+                if (!soundEnabled) return;
+                sound.currentTime = 0;
+                sound.play().catch(e => console.log("Sound play error:", e));
+            }
+            
+            // Card interaction
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    if (this.classList.contains('back')) {
+                        playSound(cardFlipSound);
+                        this.classList.remove('back');
+                        this.innerHTML = `
+                            <div class="top">A ♠</div>
+                            <div class="center">♠</div>
+                            <div class="bottom">A ♠</div>
+                        `;
+                        this.classList.add('black');
+                    } else {
+                        playSound(cardPlaceSound);
+                        // Simulate card move
+                        this.style.transform = 'translateY(-10px)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 300);
+                    }
+                });
+            });
+            
+            // Win message
+            const winMessage = document.querySelector('.win-message');
+            setTimeout(() => {
+                winMessage.classList.add('show');
+                playSound(winSound);
+            }, 3000);
+            
+            // Restart button
+            document.querySelector('.btn').addEventListener('click', function() {
+                location.reload();
+            });
+            
+            // Mobile responsiveness simulation
+            if (window.innerWidth < 768) {
+                document.querySelector('.controls').style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
